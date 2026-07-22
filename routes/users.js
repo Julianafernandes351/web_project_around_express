@@ -1,21 +1,21 @@
 import { Router } from 'express';
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 export const usersRouter = Router();
 
-const filename = new URL(import.meta.url).pathname;
+const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
-console.log(dirname);
+
 // ROTA 1: GET /users
 usersRouter.get('/', async (req, res) => {
   try {
-    console.log(usersPath);
     const usersPath = path.join(dirname, '..', 'data', 'users.json');
     const data = await fs.readFile(usersPath, 'utf8');
     res.send(JSON.parse(data));
   } catch (error) {
-    console.log(error);
+
     res.status(500).send({ message: 'Erro ao ler os dados dos utilizadores' });
   }
 });
@@ -25,6 +25,7 @@ usersRouter.get('/', async (req, res) => {
 usersRouter.get('/:_id', async (req, res) => {
   try {
     const { _id } = req.params;
+    const usersPath = path.join(dirname, '..', 'data', 'users.json');
     const data = await fs.readFile(usersPath, 'utf8');
     const users = JSON.parse(data);
 

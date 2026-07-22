@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 export const cardsRouter = Router();
-const filename = new URL(import.meta.url).pathname;
+const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 const cardsPath = path.join(dirname, '..', 'data', 'cards.json');
